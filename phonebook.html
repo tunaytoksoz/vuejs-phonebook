@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Phone Book</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <style type="text/css">
+        #form{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        #form .list{
+            width: 50%;
+            text-align: center;
+        }
+        #form .list label{
+            display: block;
+            text-align: center;
+            margin-bottom: 2%;
+        }
+        #form .list input{
+            padding: 5px;
+            width:  100%;
+        }
+        #form .list button{
+            padding: 5px;
+            width:  40%;
+            margin-top: 2%;
+        }
+        .show{
+            margin-bottom: 1%;
+            border-bottom: 1px solid black;
+            min-width: 20%;
+            float: left;
+            margin-left: 40%;
+        }
+        .remove{
+            background: red;
+            color: white;
+            width: 40px;
+            border: aliceblue;
+            border-radius: 5px;
+            cursor: pointer;
+            float: right;
+            margin-right: 10%;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="form">
+            <div class="list">
+                <label>Ad Soyad:</label>
+                <input type="text" v-model="name">
+            </div>
+            <div class="list">
+                <label>Telefon:</label>
+                <input type="text" v-model="telefon">
+            </div>
+            <p v-if="errors.length">
+            <ul>
+                <li v-for="error in errors">{{ error }}</li>
+            </ul>
+            </p>
+            <div class="list">
+                <button @click="newContact">Ekle</button>
+            </div>
+        </div>
+        <br>
+        <br>
+        <listcontact :data="contacts"></listcontact>
+    </div>
+
+    <script>
+        Vue.component('listcontact', {
+            props:['data'],
+            methods:{
+                remove: function (index){
+                   this.data.splice(index,1);
+                }
+            } ,
+            template: '<div><div v-for="(item,index) in data " class="show"> {{item.name}} - {{item.phone}} <button class="remove" @click="remove(index)">Sil</button> </div></div>'
+        })
+
+        var app =new Vue({
+            el:'#app',
+            data:{
+                name:'',
+                telefon:'',
+                errors:[],
+                contacts:[]
+            },
+            methods:{
+                newContact: function (){
+                    if(this.name && this.telefon){
+                        this.contacts.push({name:this.name,phone:this.telefon});
+                        this.name='';
+                        this.telefon='';
+                    }
+                    else if(this.errors=[]){
+                        this.errors.push("phone and name is required.");
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
