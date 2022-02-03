@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>v-on:clik</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">Reverse!</button>
+    </div>
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data:{
+                message:'Tunay'
+            },
+            methods:{
+                reverseMessage : function (){
+                    this.message = this.message.split('').reverse().join('')
+                }
+            }
+        })
+    </script>
+</body>
+</html>
